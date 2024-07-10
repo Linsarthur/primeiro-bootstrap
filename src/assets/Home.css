@@ -1,0 +1,21 @@
+.container-cards{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.cards-foto{
+    width: 200px;
+    height: 190px;
+    margin: auto;
+    padding: 10px;
+}
+
+
+.cards{
+  width: 400px;
+  flex-wrap: wrap;
+
+}
+
+
