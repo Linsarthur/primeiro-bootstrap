@@ -1,12 +1,25 @@
 import Rodape from "../components/Rodape.jsx";
 import {Button} from "react-bootstrap";
 import {useForm} from "react-hook-form";
+import {addTarefa} from "../firebase/tarefas.js";
+import toast from "react-hot-toast";
+import {useNavigate} from "react-router-dom";
 
 export default function NovaTarefa() {
     const {register, handleSubmit, formState: {errors}} = useForm();
 
+    const navigate = useNavigate();
+
     function salvarTarefa(data) {
-        console.log(data);
+        //then é necessário a arrow
+        addTarefa(data)
+            .then(() => {
+                toast.success("Tarefa adicionada!")
+                navigate("/tarefas")
+            }).catch(() => {
+            toast.error("Um erro aconteceu ao adicionar a tarefa!")
+        })
+
     }
 
     return (
