@@ -1,8 +1,10 @@
 import {Badge, Button, Card, Container} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import {getTarefas} from "../firebase/tarefas.js";
+import {deleteTarefa, getTarefas} from "../firebase/tarefas.js";
 import {useEffect, useState} from "react";
 import Loader from "../components/Loader.jsx";
+import toast from "react-hot-toast";
+
 
 
 export default function Tarefas() {
@@ -13,7 +15,17 @@ export default function Tarefas() {
             setTarefas(resultados);
         });
     }
-
+    function deletarTarefa (id){
+        const deletar = confirm("Tem certeza?")
+        if (deletar){
+            deleteTarefa(id).then (() => {
+                toast.success("Removido com sucesso.")
+                carregarDados()
+            }).catch(() => {
+                toast.error("Não consegui excluir!")
+            })
+        }
+    }
     // Executar uma função quando o componente é renderizado a primeira vez.
     useEffect(() => {
         carregarDados()
@@ -36,9 +48,10 @@ export default function Tarefas() {
                                             tarefa.concluido ? <Badge bg="success">Concluído</Badge> : <Badge bg="warning">Pendente</Badge>
                                         }
                                         <Badge bg="dark">{tarefa.categoria}</Badge>
+                                        <Badge bg="dark">{new Date(tarefa.dataConclusao).toLocaleDateString()}</Badge>
                                     </div>
                                     <Button variant="dark">Editar</Button>
-                                    <Button variant="danger">Excluir</Button>
+                                    <Button variant="danger" onClick={() => deletarTarefa(tarefa.id)}>Excluir</Button>
                                 </Card.Body>
 
                             </Card>

@@ -5,7 +5,7 @@
 // - Atualizar uma tarefa(Update)
 // - Deletar uma tarefa (Delete)
 
-import {collection, addDoc, getDocs} from "firebase/firestore"
+import {collection, addDoc, getDocs, doc, deleteDoc} from "firebase/firestore"
 import {db} from "./config.js";
 
 // Criar uma referencia para a coleção no firestore
@@ -31,4 +31,9 @@ export async function getTarefas() {
          tarefas.push({...doc.data(), id: doc.id});
     })
      return tarefas;
+}
+
+export async function deleteTarefa(id){
+    const tarefaDoc =  doc(tarefasCol, id);
+    await deleteDoc(tarefaDoc);
 }
