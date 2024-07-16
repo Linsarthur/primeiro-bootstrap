@@ -1,12 +1,32 @@
 import Rodape from "../components/Rodape.jsx";
 import {Button} from "react-bootstrap";
 import {useForm} from "react-hook-form";
+import { entrarGoogle, loginUsuario } from "../firebase/auth.js";
+import toast from "react-hot-toast";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Login() {
     const {register, handleSubmit, formState: {errors}} = useForm();
 
+    const navigate = useNavigate();
+
+
     function entrar(data) {
         //data é um objeto com os dados do formulário
+        loginUsuario(data.email, data.senha).then(() => {
+            toast.success("Bem vindo(a)!")
+            navigate("/tarefas")
+        }).catch(()=>{
+            toast.error("Email ou senha errado.")
+        })
+    }
+
+    function handleEntrarGoogle (data) {
+        entrarGoogle().then(()=> {
+            toast.success("Bem vindo(a)!")
+            Navigate("/tarefas")
+        })
+        console.log("Entrar com o Google")
         console.log(data);
     }
 
@@ -18,7 +38,7 @@ function Login() {
                     <hr/>
                     <div>
                         <label htmlFor={"email"}>Email</label>
-                        <input type={"email"} id={"email"} className={"form-control"} maxLength={10}
+                        <input type={"email"} id={"email"} className={"form-control"} 
                                {...register("email", {required: true})}
                         />
                         {errors.email && <small className={"invalid"}>Digite seu email!</small>}
@@ -29,7 +49,7 @@ function Login() {
                                {...register("senha", {
                                    required: "A senha é obrigatória",
                                    minLength: {value: 6, message: "Mínimo de 6 caracteres"},
-                                   maxLength: {value: 10, message: `Máximo de 10 caracteres.`}
+                                   
                                })}
                         />
 
