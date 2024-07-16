@@ -9,6 +9,7 @@ import PoliticaDePrivacidade from "./pages/PoliticaDePrivacidade.jsx";
 import NovaTarefa from "./pages/NovaTarefa.jsx";
 import Tarefas from "./pages/Tarefas.jsx";
 import {Toaster} from "react-hot-toast";
+import EditarTarefa from "./pages/EditarTarefa.jsx";
 
 
 
@@ -29,6 +30,7 @@ function App() {
                     <Route path="/politicadeprivacidade" element={<PoliticaDePrivacidade/>}/>
                     <Route path="/tarefas" element={<Tarefas/>}/>
                     <Route path="/tarefas/adicionar" element={<NovaTarefa/>}/>
+                    <Route path="/tarefas/editar/:id" element={<EditarTarefa/>}/>
                     <Route path="*" element={<NotFound/>}/>
                 </Routes>
             </BrowserRouter>

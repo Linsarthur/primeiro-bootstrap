@@ -1,5 +1,5 @@
 import {Badge, Button, Card, Container} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {deleteTarefa, getTarefas} from "../firebase/tarefas.js";
 import {useEffect, useState} from "react";
 import Loader from "../components/Loader.jsx";
@@ -9,6 +9,8 @@ import toast from "react-hot-toast";
 
 export default function Tarefas() {
     const [tarefas, setTarefas] = useState(null);
+
+    const navigate = useNavigate();
 
     function carregarDados() {
         getTarefas().then((resultados) => {
@@ -50,7 +52,9 @@ export default function Tarefas() {
                                         <Badge bg="dark">{tarefa.categoria}</Badge>
                                         <Badge bg="dark">{new Date(tarefa.dataConclusao).toLocaleDateString()}</Badge>
                                     </div>
-                                    <Button variant="dark">Editar</Button>
+                                    <Button variant="dark" onClick={() => {
+                                        navigate(`/tarefas/editar/${tarefa.id}`);
+                                    }}>Editar</Button>
                                     <Button variant="danger" onClick={() => deletarTarefa(tarefa.id)}>Excluir</Button>
                                 </Card.Body>
 
