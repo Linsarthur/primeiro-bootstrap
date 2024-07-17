@@ -33,15 +33,17 @@ export async function getTarefas() {
      return tarefas;
 }
 
-export async function gerTarefasUsuario(idUsuario){
+export async function getTarefasUsuario(idUsuario){
 //Filtrar as tarefas da coleção de acordo com o id do usuário
     const filtro = query(tarefasCol, where("idUsuario", "==", idUsuario))
-    const snapshot = await getDocs();
+    const snapshot = await getDocs(filtro);
     const tarefas = []
 
     snapshot.forEach((doc) => {
-        tarefas.push({...doc.data, id: doc.id})
+        tarefas.push({...doc.data(), id: doc.id})
     })
+
+    return tarefas;
 }
 
 

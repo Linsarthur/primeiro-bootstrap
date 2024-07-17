@@ -1,6 +1,6 @@
 import {Badge, Button, Card, Container} from "react-bootstrap";
 import {Link, Navigate, useNavigate} from "react-router-dom";
-import {deleteTarefa, getTarefas} from "../firebase/tarefas.js";
+import {deleteTarefa, getTarefas, getTarefasUsuario} from "../firebase/tarefas.js";
 import {useContext, useEffect, useState} from "react";
 import Loader from "../components/Loader.jsx";
 import toast from "react-hot-toast";
@@ -16,9 +16,11 @@ export default function Tarefas() {
     const navigate = useNavigate();
 
     function carregarDados() {
-        getTarefas().then((resultados) => {
-            setTarefas(resultados);
-        });
+        if(usuario){
+            getTarefasUsuario(usuario.uid).then((resultados) => {
+                setTarefas(resultados);
+            });
+        }
     }
     function deletarTarefa (id){
         const deletar = confirm("Tem certeza?")
