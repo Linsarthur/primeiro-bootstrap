@@ -1,9 +1,10 @@
 import {Button} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import toast from "react-hot-toast";
-import {useNavigate, useParams} from "react-router-dom";
+import {Navigate, useNavigate, useParams} from "react-router-dom";
 import {getTarefa, updateTarefa} from "../firebase/tarefas.js";
-import {useEffect} from "react";
+import {useContext, useEffect} from "react";
+import { UsuarioContext } from "../contexts/UsuarioContext.jsx";
 
 function EditarTarefa() {
     const {id} = useParams()
@@ -15,6 +16,8 @@ function EditarTarefa() {
     } = useForm();
 
     const navigate = useNavigate();
+
+    const usuario = useContext(UsuarioContext);
 
     function carregarDado() {
         getTarefa(id).then((tarefa) => {
@@ -32,6 +35,10 @@ function EditarTarefa() {
             navigate("/tarefas")
         })
 
+    }
+    
+    if(usuario === null){
+        return <Navigate to="/login"/>
     }
 
     useEffect(() => {

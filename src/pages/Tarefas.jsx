@@ -1,14 +1,17 @@
 import {Badge, Button, Card, Container} from "react-bootstrap";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 import {deleteTarefa, getTarefas} from "../firebase/tarefas.js";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import Loader from "../components/Loader.jsx";
 import toast from "react-hot-toast";
-
+import { UsuarioContext } from "../contexts/UsuarioContext.jsx"
 
 
 export default function Tarefas() {
+    
     const [tarefas, setTarefas] = useState(null);
+    //recuperamos a informação do usuário (se está logado ou não) 
+    const usuario = useContext(UsuarioContext);
 
     const navigate = useNavigate();
 
@@ -32,6 +35,13 @@ export default function Tarefas() {
     useEffect(() => {
         carregarDados()
     }, []);
+
+
+    //se o usuário não estiver logado
+    if(usuario === null){
+        //navegar para a outra página
+        return <Navigate to="/login"/>
+    }
     return (
         <main>
             <Container>

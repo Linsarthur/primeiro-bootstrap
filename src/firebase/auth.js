@@ -3,7 +3,7 @@
 //entrar com google
 // entrar com email/senha
 //logout
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { auth } from "./config";
 export async function criarUsuario(nome, email, senha) {
   //indicamos o serviçoi de autenticação e o email e senha do novo usuário
@@ -22,4 +22,9 @@ export async function entrarGoogle () {
 
 export async function loginUsuario (email, senha){
    await signInWithEmailAndPassword(auth, email, senha)
+}
+
+export async function logout(){
+  //Desconectar o usuário atualmente logado na aplicação
+  await signOut(auth)
 }

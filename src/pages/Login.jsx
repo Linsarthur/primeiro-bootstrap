@@ -3,13 +3,16 @@ import {Button} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import { entrarGoogle, loginUsuario } from "../firebase/auth.js";
 import toast from "react-hot-toast";
-import { Navigate, useNavigate } from "react-router-dom";
+import {  Navigate, useNavigate } from "react-router-dom";
+import { UsuarioContext } from "../contexts/UsuarioContext.jsx";
+import { useContext } from "react";
 
 function Login() {
     const {register, handleSubmit, formState: {errors}} = useForm();
 
     const navigate = useNavigate();
 
+    const usuario = useContext(UsuarioContext);
 
     function entrar(data) {
         //data é um objeto com os dados do formulário
@@ -21,13 +24,15 @@ function Login() {
         })
     }
 
-    function handleEntrarGoogle (data) {
+    function handleEntrarGoogle () {
         entrarGoogle().then(()=> {
             toast.success("Bem vindo(a)!")
-            Navigate("/tarefas")
+            navigate("/tarefas")
         })
-        console.log("Entrar com o Google")
-        console.log(data);
+        
+    }
+    if(usuario !== null){
+        return <Navigate to="/tarefas"/>
     }
 
     return (
@@ -56,7 +61,7 @@ function Login() {
                         {errors.senha && <small className={"invalid"}>{errors.senha.message}</small>}
                     </div>
                     <Button variant={"dark"} className={"mt-1 w-100"} type={"submit"}>Entrar</Button>
-                    <Button variant={"danger"} className={"mt-1 w-100"} type={"button"}>Entrar com o Google</Button>
+                    <Button variant={"danger"} className={"mt-1 w-100"} type={"button"} onClick={handleEntrarGoogle}>Entrar com o Google</Button>
                 </form>
             </main>
             <Rodape/>
